@@ -12,24 +12,73 @@ const ChatWidget = ({ userName, roomId }) => {
 
     useEffect(() => {
         if (!socket) return;
+        
+        // Fetch history on mount
+        if (roomId) {
+            socket.emit('get_chat_history', { roomId });
+        }
+
         const handleMsg = (msg) => {
-            setMessages(prev => [...prev, msg]);
+            setMessages(prev => {
+                // 1. Exact ID check
+                if (prev.some(m => m.id === msg.id)) return prev;
+
+                // 2. Fuzzy content check (same sender + same text + sent recently)
+                const isDuplicateContent = prev.some(m => 
+                    m.sender === msg.sender && 
+                    m.message === msg.message && 
+                    Math.abs(new Date(msg.timestamp).getTime() - new Date(m.timestamp).getTime()) < 2000
+                );
+                
+                if (isDuplicateContent) return prev;
+
+                return [...prev, msg];
+            });
             if (!isOpen) setUnread(prev => prev + 1);
             setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
         };
+
+        const handleHistory = (history) => {
+            if (Array.isArray(history)) {
+                // Merge history, avoiding duplicates if any
+                setMessages(prev => {
+                    const newMsgs = [...history];
+                    // Add existing ones that aren't in history (if any new ones came in simultaneously)
+                    prev.forEach(p => {
+                        if (!newMsgs.some(h => h.id === p.id)) {
+                             newMsgs.push(p);
+                        }
+                    });
+                    return newMsgs.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+                });
+            }
+        };
+
         socket.on('chat_message', handleMsg);
-        return () => { socket.off('chat_message', handleMsg); };
-    }, [socket, isOpen]);
+        socket.on('chat_history', handleHistory);
+
+        return () => { 
+            socket.off('chat_message', handleMsg);
+            socket.off('chat_history', handleHistory);
+        };
+    }, [socket, isOpen, roomId]);
 
     useEffect(() => {
         if (isOpen) setUnread(0);
     }, [isOpen]);
 
+    const [isSending, setIsSending] = useState(false);
+
     const send = (e) => {
         e.preventDefault();
-        if (!input.trim() || !roomId) return;
+        if (!input.trim() || !roomId || isSending) return;
+        
+        setIsSending(true);
         socket?.emit('chat_message', { roomId, message: input, sender: userName });
         setInput('');
+        
+        // Reset sending lock after a short delay
+        setTimeout(() => setIsSending(false), 500);
     };
 
     return (

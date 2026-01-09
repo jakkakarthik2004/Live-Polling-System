@@ -78,7 +78,14 @@ const JoinRoom = () => {
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-white rounded-3xl p-6 md:p-8 w-full max-w-md shadow-2xl"
             >
-                <div className="text-center mb-8">
+                <div className="text-center mb-8 relative">
+                    <button 
+                        onClick={() => navigate('/')}
+                        className="absolute left-0 top-1 p-2 -ml-4 text-gray hover:text-primary transition-colors hover:bg-gray/10 rounded-full"
+                        title="Back to Home"
+                    >
+                        <span className="text-xl font-bold">←</span>
+                    </button>
                     <h1 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-2">
                         Join Session
                     </h1>

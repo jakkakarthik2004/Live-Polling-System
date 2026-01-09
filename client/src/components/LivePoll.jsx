@@ -30,6 +30,12 @@ const LivePoll = ({ poll, onVote, hasVoted, isStudent = false }) => {
   }, [totalVotes, playPop]);
 
   const [selectedOptions, setSelectedOptions] = useState([]);
+  
+  // Reset selection when poll changes
+  useEffect(() => {
+      setSelectedOptions([]);
+  }, [poll._id]);
+
   const isMultiSelect = poll.type === 'multiple';
 
   const showVoting = isStudent && timeLeft > 0 && !hasVoted;

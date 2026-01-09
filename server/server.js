@@ -6,6 +6,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const { registerSocketHandlers } = require("./socket/socketHandler");
 const { createPoll, getPolls, getPollDetails, getActivePoll, getLatestPoll } = require("./controllers/PollController");
+const { getRoomLeaderboard } = require("./controllers/RoomController");
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.get('/api/polls', getPolls);
 app.get('/api/polls/active/:roomId', getActivePoll);
 app.get('/api/polls/last/:roomId', getLatestPoll);
 app.get('/api/polls/:id', getPollDetails);
+app.get('/api/rooms/:roomId/leaderboard', getRoomLeaderboard);
 
 app.get('/api/health', (req, res) => {
     res.json({ message: 'Server is running' });

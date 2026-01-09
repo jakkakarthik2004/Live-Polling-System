@@ -86,6 +86,21 @@ class RoomService {
         // For now, just room status is enough for join logic, but polls might need cleanup.
         // Let's just update room.
     }
+
+    async addMessage(roomId, messageData) {
+        const room = await Room.findById(roomId);
+        if (room) {
+            room.messages.push(messageData);
+            await room.save();
+            return room.messages;
+        }
+        return [];
+    }
+
+    async getMessages(roomId) {
+        const room = await Room.findById(roomId);
+        return room ? room.messages : [];
+    }
 }
 
 const roomService = new RoomService();

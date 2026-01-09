@@ -4,6 +4,11 @@ const RoomSchema = new mongoose.Schema({
     roomCode: { type: String, required: true, unique: true },
     isActive: { type: Boolean, default: true },
     createdBy: { type: String, required: true }, // Socket ID of teacher or generic "Teacher"
+    messages: [{
+        sender: String,
+        message: String,
+        timestamp: { type: Date, default: Date.now }
+    }],
 }, {
     timestamps: true,
 });

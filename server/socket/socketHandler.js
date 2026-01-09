@@ -35,10 +35,23 @@ const registerSocketHandlers = (io) => {
         socket.on('create_room', async () => {
             try {
                 const room = await roomService.createRoom(socket.id);
-                socket.join(room._id.toString());
+                const roomId = room._id.toString();
+                socket.join(roomId);
+                console.log(`[Socket] Teacher ${socket.id} created and joined room ${roomId}`);
                 socket.emit('room_created', room);
             } catch (err) {
                 socket.emit('error', { message: err.message });
+            }
+        });
+
+        // ...
+
+        socket.on('chat_message', ({ roomId, message, sender }) => {
+            if (roomId) {
+                console.log(`[Socket] Chat in ${roomId} from ${sender}: ${message}`);
+                const roomSockets = io.sockets.adapter.rooms.get(roomId);
+                console.log(`[Socket] Broadcasting to ${roomSockets ? roomSockets.size : 0} clients in room ${roomId}`);
+                io.to(roomId).emit('chat_message', { message, sender, id: Date.now(), timestamp: new Date() });
             }
         });
 
@@ -138,9 +151,43 @@ const registerSocketHandlers = (io) => {
             }
         });
 
-        socket.on('chat_message', ({ roomId, message, sender }) => {
+        socket.on('chat_message', async ({ roomId, message, sender }) => {
             if (roomId) {
-                io.to(roomId).emit('chat_message', { message, sender, id: Date.now(), timestamp: new Date() });
+                console.log(`[Socket] Chat in ${roomId} from ${sender}: ${message}`);
+                
+                const timestamp = new Date();
+                const msgData = { message, sender, timestamp };
+                
+                // Save to DB
+                try {
+                    await roomService.addMessage(roomId, msgData);
+                } catch (e) {
+                    console.error("Failed to save message", e);
+                }
+
+                const roomSockets = io.sockets.adapter.rooms.get(roomId);
+                console.log(`[Socket] Broadcasting to ${roomSockets ? roomSockets.size : 0} clients in room ${roomId}`);
+                io.to(roomId).emit('chat_message', { ...msgData, id: Date.now() });
+            }
+        });
+
+        socket.on('get_chat_history', async ({ roomId }) => {
+            if (roomId) {
+                try {
+                    const messages = await roomService.getMessages(roomId);
+                    // Map _id to id for client consistency if needed, though client uses id from socket event usually.
+                    // Stored messages don't have the same 'id' as the original socket event unless we stored it.
+                    // For simplicity, let's use _id as id for history items.
+                    const formatted = messages.map(m => ({
+                        message: m.message,
+                        sender: m.sender,
+                        timestamp: m.timestamp,
+                        id: m._id.toString() 
+                    }));
+                    socket.emit('chat_history', formatted);
+                } catch (e) {
+                    console.error("Failed to fetch history", e);
+                }
             }
         });
 

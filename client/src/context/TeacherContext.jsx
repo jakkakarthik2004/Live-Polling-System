@@ -28,36 +28,55 @@ export const TeacherProvider = ({ children }) => {
         fetchHistory();
     }, [fetchHistory]);
 
+    // 1. Initial Session Restore
     useEffect(() => {
         const storedRoom = sessionStorage.getItem('teacher_room');
         if (storedRoom) {
             const parsed = JSON.parse(storedRoom);
             setRoom(parsed);
-
-            if (socket) {
-                const handleRejoin = () => {
-                   socket.emit('rejoin_room_teacher', { roomId: parsed._id });
-                };
-
-                if (socket.connected) {
-                    handleRejoin();
-                }
-
-                socket.on('connect', handleRejoin);
-
-                return () => {
-                    socket.off('connect', handleRejoin);
-                };
-            }
-            
+             // Initial fetch for restored room
             fetch(`http://54.144.33.173:5000/api/polls/last/${parsed._id}?t=${Date.now()}`, { cache: "no-store" })
                 .then(res => res.json())
                 .then(poll => {
                     if (poll) setActivePoll(poll);
                 })
                 .catch(err => console.error(err));
+
+            fetch(`http://54.144.33.173:5000/api/rooms/${parsed._id}/leaderboard`)
+                .then(res => res.json())
+                .then(data => {
+                    if (Array.isArray(data)) setLeaderboard(data);
+                })
+                .catch(err => console.error(err));
         }
-    }, [socket]);
+    }, []);
+
+    // 2. Persistent Reconnection Handler
+    useEffect(() => {
+        if (!socket || !room) return;
+
+        const handleRejoin = () => {
+            console.log("Socket reconnected, rejoining room:", room._id);
+            socket.emit('rejoin_room_teacher', { roomId: room._id });
+        };
+
+        socket.on('connect', handleRejoin);
+        
+        // If we are already connected but maybe lost state (or just mounted), ensure we are in.
+        // However, we don't want to double-join on every render.
+        // But for 'initial restore' (where socket might be connected before setRoom), we need to trigger it.
+        if (socket.connected) {
+             // We can safely emit this idempotent event
+             // But let's only do it if we suspect we might not be joined?
+             // Actually, doing it once when 'room' changes (and socket is valid) is good practice
+             // to ensure we are sync with server.
+             socket.emit('rejoin_room_teacher', { roomId: room._id });
+        }
+
+        return () => {
+            socket.off('connect', handleRejoin);
+        };
+    }, [socket, room?._id]);
 
     useEffect(() => {
         if (room) {
