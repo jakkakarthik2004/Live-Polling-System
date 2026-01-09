@@ -11,8 +11,8 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    // Determine URL based on environment or default to localhost
-    const SOCKET_URL = 'http://localhost:5000'; 
+    // Determine URL based on environment or default to 34.230.17.196
+    const SOCKET_URL = 'http://34.230.17.196:5000'; 
     const newSocket = io(SOCKET_URL);
 
     setSocket(newSocket);

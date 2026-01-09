@@ -16,7 +16,7 @@ export const TeacherProvider = ({ children }) => {
         if (!room?._id) return; 
 
         try {
-            const res = await fetch(`http://localhost:5000/api/polls?roomId=${room._id}`);
+            const res = await fetch(`http://34.230.17.196:5000/api/polls?roomId=${room._id}`);
             const data = await res.json();
             setHistory(data);
         } catch (err) {
@@ -50,7 +50,7 @@ export const TeacherProvider = ({ children }) => {
                 };
             }
             
-            fetch(`http://localhost:5000/api/polls/last/${parsed._id}?t=${Date.now()}`, { cache: "no-store" })
+            fetch(`http://34.230.17.196:5000/api/polls/last/${parsed._id}?t=${Date.now()}`, { cache: "no-store" })
                 .then(res => res.json())
                 .then(poll => {
                     if (poll) setActivePoll(poll);

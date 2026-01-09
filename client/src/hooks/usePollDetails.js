@@ -11,7 +11,7 @@ export const usePollDetails = (pollId) => {
         const fetchDetails = async () => {
             try {
                 setLoading(true);
-                const res = await fetch(`http://localhost:5000/api/polls/${pollId}`);
+                const res = await fetch(`http://34.230.17.196:5000/api/polls/${pollId}`);
                 if (!res.ok) throw new Error('Failed to fetch details');
                 const json = await res.json();
                 setData(json);

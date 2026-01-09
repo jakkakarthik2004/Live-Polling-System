@@ -28,6 +28,10 @@ app.get('/api/polls/active/:roomId', getActivePoll);
 app.get('/api/polls/last/:roomId', getLatestPoll);
 app.get('/api/polls/:id', getPollDetails);
 
+app.get('/api/health', (req, res) => {
+    res.json({ message: 'Server is running' });
+})
+
 registerSocketHandlers(io);
 
 const PORT = process.env.PORT || 5000;
