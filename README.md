@@ -56,7 +56,7 @@ Create a `.env` file in the `server` folder with your configuration:
 ```env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
-CORS_ORIGIN=http://34.230.17.196:5173
+CORS_ORIGIN=http://54.144.33.173:5173
 ```
 
 Start the backend server:
@@ -76,7 +76,7 @@ Start the React development server:
 ```bash
 npm run dev
 ```
-*Client runs on http://34.230.17.196:5173 by default.*
+*Client runs on http://54.144.33.173:5173 by default.*
 
 ## 📱 Usage Guide
 

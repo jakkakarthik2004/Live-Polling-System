@@ -1,6 +1,6 @@
 const io = require("socket.io-client");
 
-const SERVER_URL = "http://34.230.17.196:5000";
+const SERVER_URL = "http://54.144.33.173:5000";
 
 async function runTest() {
     console.log("Starting Debug Test...");
