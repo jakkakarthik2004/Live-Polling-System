@@ -31,6 +31,12 @@ A real-time, interactive polling application built for classrooms and live event
 - **Backend**: Node.js, Express, Socket.io, MongoDB (Mongoose)
 - **Tools**: QRCode.react, Canvas Confetti
 
+## 🚀 Deployment
+> [!IMPORTANT]
+> The application is currently deployed and live:
+> *   **Server**: Deployed on **AWS EC2** instance.
+> *   **Client**: Hosted on **AWS S3** bucket.
+
 ## 🚀 Getting Started
 
 Follow these steps to run the application locally.
