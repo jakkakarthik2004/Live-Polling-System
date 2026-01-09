@@ -54,8 +54,8 @@ const PollCreator = ({ createPoll, error }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray/20 max-w-2xl w-full">
-      <div className="flex justify-between items-center mb-6">
+    <div className="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray/20 max-w-2xl w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
          <h2 className="text-xl font-bold text-dark">Let's Get Started</h2>
          <div className="flex items-center gap-2">
              <span className="text-sm font-semibold text-gray">Multiple Answers</span>
@@ -132,7 +132,7 @@ const PollCreator = ({ createPoll, error }) => {
 
          <button 
             onClick={handleAddOption}
-            className="mt-4 text-primary text-sm font-semibold border border-primary/20 px-4 py-2 rounded-lg hover:bg-primary/5 transition-colors"
+            className="mt-2 text-primary text-sm font-semibold border border-primary/20 px-4 py-2 rounded-lg hover:bg-primary/5 transition-colors w-full sm:w-auto"
          >
             + Add More option
          </button>

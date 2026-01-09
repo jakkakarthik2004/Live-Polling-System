@@ -11,7 +11,7 @@ const Leaderboard = ({ leaderboard = [] }) => {
     };
 
     return (
-        <div className="bg-white rounded-2xl shadow-lg border border-gray/10 p-6">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray/10 p-4 md:p-6">
             <h3 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary mb-4 flex items-center gap-2">
                 <span>🏆</span> Live Leaderboard
             </h3>

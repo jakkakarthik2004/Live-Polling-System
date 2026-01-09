@@ -54,7 +54,7 @@ const LivePoll = ({ poll, onVote, hasVoted, isStudent = false }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow-sm border border-gray/20 max-w-3xl w-full">
+    <div className="bg-white p-4 md:p-6 rounded-xl shadow-sm border border-gray/20 max-w-3xl w-full">
       <div className="flex items-center gap-2 mb-6">
         <h2 className="text-lg font-bold text-dark">Question</h2>
         <FancyTimer timeLeft={timeLeft} totalDuration={poll.duration} />
@@ -135,7 +135,7 @@ const LivePoll = ({ poll, onVote, hasVoted, isStudent = false }) => {
       )}
 
       {!poll.isActive && (
-          <div className="mt-4 text-center text-red-500 text-sm font-semibold">
+          <div className="mt-4 text-center text-red-500 text-sm font-semibold pb-2">
               Poll Ended
           </div>
       )}

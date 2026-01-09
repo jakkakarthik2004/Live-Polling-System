@@ -7,6 +7,9 @@ const QrScanner = ({ onScan, onClose }) => {
         onDecodeResult: (result) => {
             onScan(result.getText());
         },
+        constraints: {
+            video: { facingMode: "environment" }
+        }
     });
 
     return (

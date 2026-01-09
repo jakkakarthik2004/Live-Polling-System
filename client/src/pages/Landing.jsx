@@ -20,7 +20,7 @@ const Landing = () => {
       <div className="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
         <div 
           onClick={() => navigate('/student')}
-          className="flex-1 bg-white p-8 rounded-xl border-2 border-transparent hover:border-primary cursor-pointer transition-all shadow-sm hover:shadow-md group"
+          className="flex-1 bg-white p-6 md:p-8 rounded-xl border-2 border-transparent hover:border-primary cursor-pointer transition-all shadow-sm hover:shadow-md group"
         >
           <h2 className="text-xl font-bold text-dark mb-2 group-hover:text-primary">I'm a Student</h2>
           <p className="text-gray text-sm">
@@ -30,7 +30,7 @@ const Landing = () => {
 
         <div 
           onClick={() => navigate('/teacher')}
-          className="flex-1 bg-white p-8 rounded-xl border-2 border-transparent hover:border-primary cursor-pointer transition-all shadow-sm hover:shadow-md group"
+          className="flex-1 bg-white p-6 md:p-8 rounded-xl border-2 border-transparent hover:border-primary cursor-pointer transition-all shadow-sm hover:shadow-md group"
         >
           <h2 className="text-xl font-bold text-dark mb-2 group-hover:text-primary">I'm a Teacher</h2>
           <p className="text-gray text-sm">

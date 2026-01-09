@@ -53,7 +53,7 @@ const StudentLobby = () => {
       <FloatingEmojis />
       <ChatWidget userName={roomContext?.name} roomId={roomContext?.roomId} />
       
-      <header className="max-w-2xl mx-auto mb-8 flex justify-between items-center">
+      <header className="max-w-2xl mx-auto mb-6 md:mb-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
          <div className="flex items-center gap-2">
             <span className="bg-white shadow-sm text-dark text-xs px-3 py-1 rounded-full font-bold border border-gray/10">👤 {roomContext?.name}</span>
             <div className="bg-white shadow-sm px-3 py-1 rounded-full flex items-center gap-2 border border-gray/10">
@@ -64,7 +64,7 @@ const StudentLobby = () => {
       </header>
 
       <main className="max-w-2xl mx-auto space-y-6">
-         <div className="bg-white p-6 rounded-2xl shadow-xl border border-gray/10 animate-scale-in">
+         <div className="bg-white p-4 md:p-6 rounded-2xl shadow-xl border border-gray/10 animate-scale-in">
              <LivePoll poll={activePoll} onVote={vote} hasVoted={hasVoted} isStudent={true} />
          </div>
          

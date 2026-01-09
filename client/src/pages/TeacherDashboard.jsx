@@ -46,23 +46,23 @@ const TeacherDashboard = () => {
   }, [activePoll]);
 
   return (
-    <div className="min-h-screen bg-light p-8 relative">
+    <div className="min-h-screen bg-light p-4 md:p-8 relative">
       <ChatWidget userName="Teacher (Host)" roomId={room?._id} />
       <FloatingEmojis />
       <StudentList roomId={room?._id} />
       
-      <header className="max-w-6xl mx-auto mb-8 flex justify-between items-center">
-         <div className="flex items-center gap-2">
-            <span className="bg-primary text-white text-xs px-2 py-1 rounded-full font-bold">Intervue.io Poll</span>
+      <header className="max-w-6xl mx-auto mb-6 md:mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+         <div className="flex flex-col md:flex-row items-center gap-3 w-full md:w-auto">
+            <span className="bg-primary text-white text-xs px-2 py-1 rounded-full font-bold hidden md:inline-block">Intervue.io Poll</span>
             {room && (
-                <>
-                    <div className="flex items-center gap-4 bg-white px-4 py-1.5 rounded-full shadow-sm border border-gray/10">
-                        <span className="text-sm font-bold text-gray uppercase tracking-wider">Room Code:</span>
-                        <span className="text-2xl font-black text-primary font-mono tracking-widest leading-none">{room.roomCode}</span>
+                <div className="flex flex-wrap justify-center items-center gap-3 w-full md:w-auto">
+                    <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-full shadow-sm border border-gray/10">
+                        <span className="text-xs font-bold text-gray uppercase tracking-wider">Room:</span>
+                        <span className="text-xl md:text-2xl font-black text-primary font-mono tracking-widest leading-none">{room.roomCode}</span>
                     </div>
                     <button 
                         onClick={() => setShowInvite(true)}
-                        className="bg-secondary text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-secondary/90 transition-transform hover:scale-105 shadow-md"
+                        className="bg-secondary text-white px-3 py-2 rounded-lg text-xs md:text-sm font-bold hover:bg-secondary/90 transition-transform hover:scale-105 shadow-md whitespace-nowrap"
                     >
                         Invite Students 🔗
                     </button>
@@ -71,12 +71,12 @@ const TeacherDashboard = () => {
                         onClose={() => setShowInvite(false)} 
                         roomCode={room.roomCode}
                     />
-                </>
+                </div>
             )}
          </div>
          <button 
             onClick={() => navigate('/teacher/history')}
-            className="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
+            className="w-full md:w-auto bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors"
          >
             View Poll history
          </button>
